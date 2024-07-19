@@ -1,0 +1,101 @@
+body {
+  margin: 0;
+  font-family: 'Press Start 2P', cursive;
+  background-color: #010012;
+  color: #FFFFFF;
+  background-image: url("../images/desktop.png");
+  background-repeat: no-repeat;
+  background-position-x: center;
+  background-position-y: 50%;
+  background-size: 500px;
+  border: none;
+  overflow: hidden;
+}
+.desktop {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+#terminal-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 400px;
+  width: 100vw;
+  margin-top: 20vh;
+  position: absolute;
+  top:0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+}
+.top-bar {
+  height: 30px;
+  background-color: #202020;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 10px;
+  align-items: center;
+}
+
+.menu, .status {
+  font-size: 12px;
+}
+
+.icons {
+  flex: 1;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
+  padding: 20px;
+  gap: 20px;
+}
+
+.icon {
+  width: 48px;
+  height: 48px;
+  font-size: 10px;
+  border: none;
+}
+.taskbar-container{
+  display: flex;
+  justify-content: center;
+  position: relative;
+  
+}
+.taskbar {
+  height: 100px;
+  width: 200px;
+  background-color: #202020;
+  display: flex;
+  border: none;
+  border-radius: 10%;
+  justify-content: center;
+  align-items:flex-start;
+  padding: 0 10px;
+  gap: 10px;
+}
+
+.task {
+  width: 50px;
+  height: 20px;
+  background-color: #505050;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 10px;
+  border: 1px solid #707070;
+  margin-top: 10px;
+}
+
+/* 8-bit styling */
+body, .desktop, .top-bar, .menu, .status, .icons, .icon, .taskbar, .task {
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -webkit-optimize-contrast;
+}

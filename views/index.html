@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>8-Bit Ubuntu Desktop</title>
+    <link rel="stylesheet" href="../public/stylesheets/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <script type="module" src="../public/javascripts/file_loader.js"></script>
+</head>
+<body>
+    
+    <div id="desktop" class="desktop">
+        <div id="top-bar" class="top-bar">
+            <div class="menu">Menu</div>
+            <div class="status">Status</div>
+        </div>
+        <div class="icons" id="icons">
+            <div style="width: 48px;height: 56px;">
+            <div id="terminal" class="icon" style="background-image: url('../public/images/image1.png'); background-size: 48px;"></div>
+            <p style='text-align: center; font-family: "Press Start 2P", cursive; font-size: 8px; color: rgb(0, 255, 0); height: 8px;word-break: break-all;'>$</p>
+            </div>
+        </div>
+        <div id="terminal-container"></div>
+        <div class="taskbar-container">
+            <div class="taskbar">
+                <div class="task">Task1</div>
+                <div class="task">Task2</div>
+                <div class="task">Task3</div>
+            </div>
+        </div>  
+    </div>
+    
+    <script src="../public/javascripts/terminal.js"></script>
+</body>
+</html>
