@@ -54,9 +54,12 @@ document.getElementById("terminal").addEventListener("click",function terminal()
     appendTerminalOutput(`Type 'help' to get the list of the commands!`);
 
 
-    function appendTerminalOutput(output) {
+    function appendTerminalOutput(output,err_indicator) {
         const outputElement = document.createElement('p');
         outputElement.textContent = output;
+        if(err_indicator == true){
+            outputElement.style.cssText = 'color:red;'
+        }
         let formattedText = '';
         let index = 0;
         let text = outputElement.textContent
@@ -89,6 +92,8 @@ document.getElementById("terminal").addEventListener("click",function terminal()
                 appendTerminalOutput(`cd [dir name]  changes current working directory`);
                 appendTerminalOutput(`pwd            shows current working directory`);
                 appendTerminalOutput(`ls             lists the files under current working directory`);
+                appendTerminalOutput(`history        shows the command history`);
+                appendTerminalOutput(`clearhist      clears the command history`);
             }
             else if (inputText === 'clear') {
                 clearTerminal();
@@ -98,10 +103,17 @@ document.getElementById("terminal").addEventListener("click",function terminal()
                 appendTerminalOutput(`$ ${temp_text}`);
             }
             else if(inputText.split(" ")[0] === 'rm'){
-                dir = inputText.split(" ").splice(1,inputText.length).join(" ");
+                let dir = inputText.split(" ").splice(1,inputText.length).join(" ");
                 api('rm',dir).then(data => {
-                    console.log(data);
-                }).catch(error => {console.error(error)});;
+                    if(data["error"] == null){
+                        document.getElementById("icons").removeChild(document.getElementById(dir));
+                    }
+                    else{
+                        appendTerminalOutput(`$ ${data["error"]}`,true);
+                    }
+                }).catch(error => {console.error(error)});
+
+
             }
             else if(inputText.split(" ")[0] === 'touch'){
                 dir = inputText.split(" ").splice(1,inputText.length).join(" ");
@@ -113,9 +125,10 @@ document.getElementById("terminal").addEventListener("click",function terminal()
                         var created_icon = document.createElement("div");
                         created_icon.style.cssText='width: 48px;height: 56px;border: none;'
                         document.getElementById("icons").appendChild(created_icon);
+                        created_icon.id = inputText.split(" ").splice(1,inputText.length).join(" ");
 
                         var icon_pic = document.createElement("div");
-                        icon_pic.style.cssText='background-color:aliceblue;width:48px;height:48px;'
+                        icon_pic.style.cssText='background-image:url("public/images/file.png");width:48px;height:48px;background-repeat: no-repeat;'
                         created_icon.appendChild(icon_pic);
 
                         var file_name = document.createElement("p");
@@ -146,8 +159,20 @@ document.getElementById("terminal").addEventListener("click",function terminal()
                     appendTerminalOutput(`$ ${data["list"]}`);
                 }).catch(error => {console.error(error)});
             }
+            else if(inputText === 'history'){
+                api('history','').then(data => {
+                    appendTerminalOutput(`$ ${data["history"]}`);
+                }).catch(error => {console.error(error)});
+            }
+            else if(inputText === 'clearhist'){
+                clearhist().then(data => {
+                    appendTerminalOutput(`$ ${data["message"]}`);
+                }).catch(error => {console.error(error)});
+                
+
+            }
             else {
-                appendTerminalOutput(`$ ${inputText} is not an acceptable command pal`);
+                appendTerminalOutput(`$ ${inputText} is not an acceptable command pal`,true);
             }
             input.value = '';
             
@@ -176,4 +201,12 @@ async function api(command,dir){
         console.error(error);
     }
 
+}
+
+async function clearhist(){
+    const resp = await fetch('http://localhost/api/clear-history',{
+    method: 'GET'
+    });
+    const data = await resp.json();
+    return data;
 }

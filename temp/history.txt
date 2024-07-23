@@ -1,0 +1,5 @@
+pwd 
+cd Desktop
+touch asd
+rm as
+rm asd

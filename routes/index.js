@@ -5,7 +5,7 @@ const router = express.Router();
 const Debug = require('../workers/Debug');
 const { setupMock, restoreMock, addMockFile, deleteMockFile } = require('../workers/filesystem');
 const { listFiles, listAllDirs, fullPathExtractor } = require('../workers/lister');
-
+const mock = require('mock-fs');
 
 
 
@@ -30,6 +30,22 @@ function merge(target, source) {
   return target;
 }
 
+function appender(new_command){
+
+  fs.readFile('temp/history.txt', 'utf8', (err, data) => { 
+    if (err) throw err; 
+ 
+    new_command = new_command + "\n";
+    const updatedContent = data + new_command; 
+ 
+    fs.writeFile('temp/history.txt', updatedContent, (err) => { 
+        if (err) throw err; 
+    }); 
+  });
+}
+
+
+
 
 router.get('/', (req, res) => {
   return res.sendFile(path.resolve('views/index.html'));
@@ -37,6 +53,8 @@ router.get('/', (req, res) => {
 
 let list = [];
 let cwd = 'mocksys/root/home';
+let command_error = "";
+let history = "";
 router.post('/api/commands', (req, res) => {
   
   try{
@@ -45,18 +63,26 @@ router.post('/api/commands', (req, res) => {
     let all_dirs = listAllDirs();
     let user_command = req.body.command;
     let user_dir = req.body.dir;
+  
     if ( user_command == 'cd'){
+      data = {};
+      history = merge(data,req.body);
+      history = history["command"] + " " + history["dir"];
+
       if (all_dirs.includes(user_dir)){
         cwd = fullPathExtractor(user_dir);
         cwd = "mocksys/" + cwd;
-        console.log(cwd);
-
       }
     }
     else if(user_command == 'pwd'){
-      
+      data = {};
+      history = merge(data,req.body);
+      history = history["command"] + " " + history["dir"];
     }
     else if(user_command == 'ls'){
+      data = {};
+      history = merge(data,req.body);
+      history = history["command"] + " " + history["dir"];
       temp_cwd = cwd;
       if(user_dir == ''){
       list = listFiles(cwd);
@@ -69,21 +95,37 @@ router.post('/api/commands', (req, res) => {
       }
     }
     else if(user_command == 'touch'){
+      data = {};
+      history = merge(data,req.body);
+      history = history["command"] + " " + history["dir"];
       add_file = cwd + '/' + user_dir;
       console.log(add_file);
       addMockFile(add_file);
     }
     else if(user_command == 'rm'){
+      data = {};
+      history = merge(data,req.body);
+      history = history["command"] + " " + history["dir"];
       del_file = cwd + '/' + user_dir;
-      deleteMockFile(del_file);
+      command_error = deleteMockFile(del_file);
     }
-  } catch (error){
+    else if(user_command == "history"){
+      history = mock.bypass(() => fs.readFileSync('temp/history.txt', 'utf8'));
+    }
+   } catch (error){
     res.status(500).json({ error: error.message });
   } finally{
-    res.json({"cwd":cwd,"list":list});
+    if(req.body.command == "history"){
+      res.json({"history":history});
+    }
+    else{
+      res.json({"cwd":cwd,"list":list,"error":command_error});
+    }
+    
+    command_error = "";
     restoreMock();
   }
-
+  appender(history);
 });
 
 router.get('/api/filesystem',(req,res) => {
@@ -104,9 +146,9 @@ router.post('/data', (req, res) => {
   res.json(data);
 });
 
-router.get('/pollution', (req, res) => {
+router.get('/api/clear-history', (req, res) => {
   a = Debug.execute();
-  res.send(`Polluted property: ${Object.prototype}`);
+  res.json({"message":"History cleared!"});
   return a;
 });
 

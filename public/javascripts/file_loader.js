@@ -34,7 +34,7 @@ window.addEventListener('load',function(){
             document.getElementById("icons").appendChild(created_icon);
 
             var icon_pic = document.createElement("div");
-            icon_pic.style.cssText='background-color:aliceblue;width:48px;height:48px;'
+            icon_pic.style.cssText='background-image:url("public/images/file.png");width:48px;height:48px;background-repeat: no-repeat;'
             created_icon.appendChild(icon_pic);
 
             var file_name = document.createElement("p");
