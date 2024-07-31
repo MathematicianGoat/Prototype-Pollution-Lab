@@ -1,9 +1,10 @@
 window.addEventListener('load',function(){
-
+    
+    let url = "http://" + location.host + "/api/filesystem"
     async function api(){
 
         try{
-            const response = await fetch('http://localhost/api/filesystem', {
+            const response = await fetch(url, {
                 method: 'GET',
                 headers: {
                   'Content-Type': 'application/json',

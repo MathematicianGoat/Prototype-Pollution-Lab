@@ -184,9 +184,9 @@ document.getElementById("terminal").addEventListener("click",function terminal()
 });
 
 async function api(command,dir){
-
+    let url = "http://" + location.host + "/api/commands"
     try{
-        const response = await fetch('http://localhost/api/commands', {
+        const response = await fetch(url, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -204,7 +204,8 @@ async function api(command,dir){
 }
 
 async function clearhist(){
-    const resp = await fetch('http://localhost/api/clear-history',{
+    let url = "http://" + location.host + "/api/clear-history"
+    const resp = await fetch(url,{
     method: 'GET'
     });
     const data = await resp.json();
