@@ -18,6 +18,17 @@ body {
   flex-direction: column;
   position: relative;
 }
+#file-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 150;
+  position: absolute;
+  margin-left: 80px;
+  margin-top: 20vh;
+  
+}
 #terminal-container{
   display: flex;
   flex-direction: column;
@@ -83,7 +94,7 @@ body {
 
 .task {
   width: 50px;
-  height: 20px;
+  height: 50px;
   background-color: #505050;
   display: flex;
   justify-content: center;
@@ -93,7 +104,7 @@ body {
   margin-top: 10px;
 }
 
-/* 8-bit styling */
+
 body, .desktop, .top-bar, .menu, .status, .icons, .icon, .taskbar, .task {
   image-rendering: pixelated;
   image-rendering: -moz-crisp-edges;

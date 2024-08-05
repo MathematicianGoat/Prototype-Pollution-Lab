@@ -1,5 +1,10 @@
+let clickable = true;
 document.getElementById("terminal").addEventListener("click",function terminal(){
- 
+    
+    if(!clickable){
+        return;
+    }
+    clickable = false;
     var term_top_bar = document.createElement("div");
     term_top_bar.id = "term_top_bar";
     term_top_bar.style.cssText='display:flex;align-items:center;justify-content:left;height:25px;width:600px;background-color:black;border: 2px solid #00ff00;'
@@ -42,6 +47,11 @@ document.getElementById("terminal").addEventListener("click",function terminal()
     prompt.style.cssText = 'color:#00ff00;';
     document.getElementById("input_div").appendChild(prompt);
     prompt.appendChild(document.createTextNode("Mathematician@root: "));
+
+    var task = document.createElement("div");
+    task.className = "task";
+    task.style.cssText = 'background-image:url("public/images/image1.png")';
+    document.getElementById("taskbar").appendChild(task);
 
     var input = document.createElement("input");
     input.id = "input";
@@ -180,7 +190,7 @@ document.getElementById("terminal").addEventListener("click",function terminal()
         } 
     })
 
-    exit.addEventListener("click",function exit(){a.remove();term_top_bar.remove();})
+    exit.addEventListener("click",function exit(){a.remove();term_top_bar.remove();task.remove();clickable = true;})
 });
 
 async function api(command,dir){
