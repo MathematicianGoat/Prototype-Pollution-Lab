@@ -83,15 +83,15 @@ router.post('/api/commands', (req, res) => {
       data = {};
       history = merge(data,req.body);
       history = history["command"] + " " + history["dir"];
-      temp_cwd = cwd;
       if(user_dir == ''){
-      list = listFiles(cwd);
+        list = listFiles(cwd);
       }
       else if(all_dirs.includes(user_dir)){
-      list = listFiles(temp_cwd);
+        ls_path = "mocksys/" + fullPathExtractor(user_dir);
+        list = listFiles(ls_path);
       }
       else{
-      list = ['U good bro?'];
+        list = ['U good bro?'];
       }
     }
     else if(user_command == 'touch'){

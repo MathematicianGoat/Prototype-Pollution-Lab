@@ -28,7 +28,7 @@ module.exports = {
             const fullPath = path.join(currentPath, entry.name);
             if (entry.isDirectory()) {
                 dirs.push(entry.name);
-                traverse(fullPath) 
+                traverse(fullPath);
             }
             });
         }

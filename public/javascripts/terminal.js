@@ -101,7 +101,7 @@ document.getElementById("terminal").addEventListener("click",function terminal()
                 appendTerminalOutput(`touch [name]   creates a file`);
                 appendTerminalOutput(`cd [dir name]  changes current working directory`);
                 appendTerminalOutput(`pwd            shows current working directory`);
-                appendTerminalOutput(`ls             lists the files under current working directory`);
+                appendTerminalOutput(`ls [dir name]  lists the files under given directory (or cwd if none given)`);
                 appendTerminalOutput(`history        shows the command history`);
                 appendTerminalOutput(`clearhist      clears the command history`);
             }
